@@ -27,7 +27,7 @@ const getAuthorById = async(req, res)=>{
 
 const postAuthor = async(req, res)=>{
     try {
-        const {nombre, bio, fechaNacimiento, nacionalidad, libros} = req.body
+        const {nombre, bio, fechaNacimiento, nacionalidad} = req.body
         if(nombre && fechaNacimiento && nacionalidad){
             const author = {
                 nombre,
@@ -51,14 +51,13 @@ const postAuthor = async(req, res)=>{
 const putAuthor = async(req, res)=>{
     try {
         const {id} = req.params
-        const {nombre, bio, fechaNacimiento, nacionalidad, libros} = req.body
+        const {nombre, bio, fechaNacimiento, nacionalidad} = req.body
         if(nombre && fechaNacimiento && nacionalidad){
             const author = {
                 nombre,
                 bio: bio || "",
                 fechaNacimiento,
                 nacionalidad,
-                libros: libros || [],
             }
             const updatedAuthor = await authorModel.findByIdAndUpdate({_id: id}, {updatedAuthor}, {$new: true});
             if(!updatedAuthor){
