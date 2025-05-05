@@ -34,7 +34,6 @@ const postAuthor = async(req, res)=>{
                 bio: bio || "",
                 fechaNacimiento,
                 nacionalidad,
-                libros: libros || [],
             }
             const newAuthor = await authorModel.create(author);
             if(!newAuthor){
