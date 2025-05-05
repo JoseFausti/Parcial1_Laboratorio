@@ -1,4 +1,5 @@
 const bookModel = require("../models/Book");
+const authorModel = require("../models/Author")
 
 const getAllBooks = async(req, res)=>{
     try {
@@ -77,10 +78,15 @@ const putBook = async(req, res)=>{
 const deleteBook = async(req, res)=>{
     try {
         const {id} = req.params
+        const authorBook = authors.find((author)=> author.libros?._id === id);
+        if (authorBook){
+            return res.status(401).json({messaje: "No se puede eliminar un libro asignado a un autor"})
+        }
         const deletedBook = await bookModel.findByIdAndDelete({_id: id})
         if (!deletedBook){
             return res.status(404).json({messaje: "No se encontro el libro"})
         }
+        const authors = await authorModel.find().populate("libros")
         return res.status(204);
     } catch (error) {
         return res.status(500).json({messaje: "Error al eliminar el libro: " + error})
